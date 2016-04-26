@@ -91,6 +91,8 @@ module.exports = function(options, modified, total, callback) {
                             } else {
                                 _upload();
                             }
+                        }else{
+                            fs.unlink(zipFile);
                         }
                     });
                 }
