@@ -46,5 +46,8 @@
   ],
   "directories": {},
   "_resolved": "http://registry.npmjs.org/atm3-deploy-http-push/-/atm3-deploy-http-push-1.0.1.tgz",
-  "readme": "ERROR: No README data found!"
+  "readme": "ERROR: No README data found!",
+  "dependencies": {
+    "archiver": "^1.0.0"
+  }
 }
