@@ -2,6 +2,8 @@
  * fis.baidu.com
  */
 var fs = require('fs');
+var archive = require('archiver')('zip');
+var request = require('request');
 var _ = fis.util;
 
 function upload(receiver, to, release, content, file, callback) {
@@ -55,7 +57,7 @@ module.exports = function(options, modified, total, callback) {
     var to = options.to,
         type = options.type,
         reTryCount = options.retry,
-        zipFile = options.file || "./publish/publish.zip";
+        zipFile = options.file || "publish/publish.zip";
     var receiver = options.receiver;
 
     var steps = [];
@@ -68,64 +70,27 @@ module.exports = function(options, modified, total, callback) {
     }
 
     if (type === "zip") {
-        var archive = require('archiver')('zip');
         var targetPath = normalizePath(zipFile, fis.project.getProjectPath());
         if (!fis.util.exists(targetPath)) {
             fis.util.mkdir(fis.util.pathinfo(targetPath).dirname);
         }
         var output = fs.createWriteStream(targetPath);
         output.on('close', function() {
-            fis.log.debug('zip end');
-            var _upload = arguments.callee;
-
+            fis.log.debug('\nzip end!');
+            process.stdout.write("\nUpload start!\n");
             var path = fis.project.getProjectPath() + "/" + zipFile;
-            var file = new fis.file( path );
-            fs.readFile(path, {encoding: "base64"}, function(err, base64data){
-                if(err){
-                    console.error(err);
-                }else{
-                    upload2(receiver, to, base64data, file, function(error) {
-                        if (error) {
-                            if (!--reTryCount) {
-                                throw new Error(error);
-                            } else {
-                                _upload();
-                            }
-                        }else{
-                            fs.unlink(zipFile);
-                        }
-                    });
-                }
+            var formData = {
+                to: to,
+                type: type,
+                file: fs.createReadStream(path)
+            };
+            request.post({url:receiver, formData: formData}, function optionalCallback(err, httpResponse, body) {
+              if (err) {
+                return console.error('upload failed:', err);
+              }
+              fs.unlink(path);
+              process.stdout.write("Upload successful!");
             });
-
-            function upload2(receiver, to, content, file, callback) {
-                var subpath = file.subpath;
-                fis.util.upload(
-                    // upload(url, opt, data, content, subpath, callback)
-                    receiver, null, {
-                        to: to,
-                        type: type,
-                        content: content
-                    }, content, subpath, function(err, res) {
-                        if (err || res.trim() != '0') {
-                            callback('upload file [' + subpath + '] to [' + to +
-                                '] by receiver [' + receiver + '] error [' + (err || res) + ']');
-                        } else {
-                            var time = '[' + fis.log.now(true) + ']';
-                            process.stdout.write(
-                                ' - '.green.bold +
-                                time.grey + ' ' +
-                                subpath.replace(/^\//, '') +
-                                ' >> '.yellow.bold +
-                                to + 
-                                '\n'
-                            );
-                            callback();
-                        }
-                    }
-                );
-            }
-
         });
 
         archive.pipe(output);
