@@ -1,6 +1,6 @@
 {
   "name": "atm3-deploy-http-push",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "atm3 deploy http-push plugin",
   "main": "index.js",
   "scripts": {
@@ -25,26 +25,30 @@
     "url": "https://github.com/fex-team/atm3-deploy-http-push/issues"
   },
   "homepage": "https://github.com/fex-team/atm3-deploy-http-push",
-  "_id": "atm3-deploy-http-push@1.0.1",
-  "_shasum": "5eac819ea647e4cc49c3b8ce9a97015b4ae8346b",
-  "_from": "atm3-deploy-http-push@1.0.1",
-  "_npmVersion": "2.7.4",
-  "_nodeVersion": "0.12.2",
+  "_id": "atm3-deploy-http-push@1.0.3",
+  "_shasum": "fcf899277be52d78a0bdd2eb70021e0b3d452a57",
+  "_from": "atm3-deploy-http-push@*",
+  "_npmVersion": "2.14.7",
+  "_nodeVersion": "4.2.2",
   "_npmUser": {
-    "name": "fansekey",
-    "email": "fansekey@gmail.com"
+    "name": "googleyufei",
+    "email": "googleyufei@qq.com"
   },
   "dist": {
-    "shasum": "5eac819ea647e4cc49c3b8ce9a97015b4ae8346b",
-    "tarball": "http://registry.npmjs.org/atm3-deploy-http-push/-/atm3-deploy-http-push-1.0.1.tgz"
+    "shasum": "fcf899277be52d78a0bdd2eb70021e0b3d452a57",
+    "tarball": "https://registry.npmjs.org/atm3-deploy-http-push/-/atm3-deploy-http-push-1.0.2.tgz"
   },
   "maintainers": [
     {
-      "name": "fansekey",
-      "email": "fansekey@gmail.com"
+      "name": "googleyufei",
+      "email": "googleyufei@qq.com"
     }
   ],
   "directories": {},
-  "_resolved": "http://registry.npmjs.org/atm3-deploy-http-push/-/atm3-deploy-http-push-1.0.1.tgz",
-  "readme": "ERROR: No README data found!"
+  "_resolved": "https://registry.npmjs.org/atm3-deploy-http-push/-/atm3-deploy-http-push-1.0.2.tgz",
+  "readme": "ERROR: No README data found!",
+  "dependencies": {
+    "archiver": "^1.0.0",
+    "request": "^2.72.0"
+  }
 }
