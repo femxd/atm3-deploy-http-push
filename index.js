@@ -2,9 +2,9 @@
  * fis.baidu.com
  */
 var fs = require('fs');
-var archive = require('archiver')('zip');
 var request = require('request');
 var _ = fis.util;
+var archiver = require('archiver')
 
 function upload(receiver, to, release, content, file, callback) {
     var subpath = file.subpath;
@@ -70,6 +70,7 @@ module.exports = function(options, modified, total, callback) {
     }
 
     if (type === "zip") {
+        var archive = archiver('zip');
         var targetPath = normalizePath(zipFile, fis.project.getProjectPath());
         if (!fis.util.exists(targetPath)) {
             fis.util.mkdir(fis.util.pathinfo(targetPath).dirname);
