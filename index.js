@@ -2,7 +2,7 @@
  * fis.baidu.com
  */
 var fs = require('fs');
-var archive = require('archiver')('zip');
+var archiver = require('archiver');
 var request = require('request');
 var _ = fis.util;
 
@@ -70,6 +70,7 @@ module.exports = function(options, modified, total, callback) {
     }
 
     if (type === "zip") {
+        var archive = archiver('zip');
         var targetPath = normalizePath(zipFile, fis.project.getProjectPath());
         if (!fis.util.exists(targetPath)) {
             fis.util.mkdir(fis.util.pathinfo(targetPath).dirname);
