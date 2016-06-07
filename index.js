@@ -6,8 +6,7 @@ var archiver = require('archiver');
 var request = require('request');
 var _ = fis.util;
 
-function upload(receiver, to, release, content, file, callback) {
-    var subpath = file.subpath;
+function upload(receiver, to, release, content, subpath, callback) {
     fis.util.upload(
         //url, request options, post data, file
         receiver, null, {
@@ -111,8 +110,18 @@ module.exports = function(options, modified, total, callback) {
         modified.forEach(function(file) {
             steps.push(function(next) {
                 var _upload = arguments.callee;
+                var filename = file.filename,
+                    newName = encodeURIComponent(filename),
+                    hashRelease = file.getHashRelease(),
+                    subpath = file.subpath,
+                    newHashRelease, newSubpath;
+                    
+                var index1 = hashRelease.indexOf(filename),
+                    index2 = subpath.indexOf(filename);
+                newHashRelease = hashRelease.substr(0, index1) + newName + file.ext;
+                newSubpath = subpath.substr(0, index2) + newName + file.ext;
 
-                upload(receiver, to, file.getHashRelease(), file.getContent(), file, function(error) {
+                upload(receiver, to, newHashRelease, file.getContent(), newSubpath, function(error) {
                     if (error) {
                         if (!--reTryCount) {
                             throw new Error(error);
