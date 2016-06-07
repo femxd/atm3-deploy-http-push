@@ -116,8 +116,8 @@ module.exports = function(options, modified, total, callback) {
                     subpath = file.subpath,
                     newHashRelease, newSubpath;
                     
-                var index1 = hashRelease.indexOf(filename),
-                    index2 = subpath.indexOf(filename);
+          	    var index1 = hashRelease.lastIndexOf(filename),
+      	            index2 = subpath.lastIndexOf(filename);
                 newHashRelease = hashRelease.substr(0, index1) + newName + file.ext;
                 newSubpath = subpath.substr(0, index2) + newName + file.ext;
 
