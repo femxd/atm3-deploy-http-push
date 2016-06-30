@@ -61,6 +61,10 @@ module.exports = function(options, modified, total, callback) {
         zipFile = options.file || "publish/publish.zip";
     var receiver = options.receiver;
 
+    if(receiver === 'http://wapstatic.kf0309.3g.qq.com/receiver/receiver2.php'){
+        fis.log.warn(receiver + "即将过期，请使用\n" + "http://wapstatic.kf0309.3g.qq.com/deploy");
+    }
+
     var steps = [];
 
     var realModified = modified.filter(function(file) {
