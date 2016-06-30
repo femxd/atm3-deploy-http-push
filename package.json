@@ -1,6 +1,6 @@
 {
   "name": "atm3-deploy-http-push",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "atm3 deploy http-push plugin",
   "main": "index.js",
   "scripts": {
