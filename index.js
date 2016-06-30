@@ -11,8 +11,8 @@ function upload(receiver, to, release, content, file, callback) {
     fis.util.upload(
         //url, request options, post data, file
         receiver, null, {
-            to: to + release
-        }, content, subpath,
+            to: encodeURIComponent(to + release)
+        }, content, encodeURIComponent(subpath),
         function(err, res) {
             if (err || res.trim() != '0') {
                 callback('upload file [' + subpath + '] to [' + to +
@@ -57,6 +57,7 @@ module.exports = function(options, modified, total, callback) {
     var to = options.to,
         type = options.type,
         reTryCount = options.retry,
+        ignoreExt = options.ignoreExt,
         zipFile = options.file || "publish/publish.zip";
     var receiver = options.receiver;
 
@@ -97,6 +98,9 @@ module.exports = function(options, modified, total, callback) {
         archive.pipe(output);
 
         modified.forEach(function(file) {
+            if(ignoreExt.indexOf(file.ext) != -1){
+                return;
+            }
             if (!file.release) {
                 fis.log.error('unable to get release path of file[' + file.realpath + ']: Maybe this file is neither in current project or releasable');
             }
@@ -110,8 +114,10 @@ module.exports = function(options, modified, total, callback) {
     } else {
         modified.forEach(function(file) {
             steps.push(function(next) {
+                if(ignoreExt.indexOf(file.ext) != -1){
+                    return;
+                }
                 var _upload = arguments.callee;
-
                 upload(receiver, to, file.getHashRelease(), file.getContent(), file, function(error) {
                     if (error) {
                         if (!--reTryCount) {
@@ -136,5 +142,6 @@ module.exports = function(options, modified, total, callback) {
 
 module.exports.options = {
     // 允许重试两次。
-    retry: 2
+    retry: 2,
+    ignoreExt: [".zip"]
 };
