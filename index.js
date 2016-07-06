@@ -58,7 +58,7 @@ module.exports = function(options, modified, total, callback) {
         type = options.type,
         reTryCount = options.retry,
         ignoreExt = options.ignoreExt,
-        zipFile = options.file || "publish/publish.zip";
+        zipFile = options.file || "publish/publish"+ (Math.random()) +".zip";
     var receiver = options.receiver;
 
     if(receiver === 'http://wapstatic.kf0309.3g.qq.com/receiver/receiver2.php'){
